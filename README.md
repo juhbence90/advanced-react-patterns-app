@@ -24,8 +24,10 @@
 
 - React.js
 - Express.js
+- Drizzle
 - TypeScript
 - tRPC
+- Zod
 - Tailwind CSS
 - Shadcn UI
 
