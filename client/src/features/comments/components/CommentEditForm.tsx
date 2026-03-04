@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/features/shared/components/ui/Form";
 import { TextArea } from "@/features/shared/components/ui/TextArea";
-import { trpc } from "@/trpc";
+import { trpc } from "@/router";
 import { useToast } from "@/features/shared/hooks/useToast";
 
 type CommentEditFormData = z.infer<typeof commentValidationSchema>;
