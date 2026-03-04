@@ -12,7 +12,7 @@ import {
   DialogHeader,
 } from "@/features/shared/components/ui/Dialog";
 import { useToast } from "@/features/shared/hooks/useToast";
-import { trpc } from "@/trpc";
+import { trpc } from "@/router";
 
 type CommentCardProps = {
   comment: CommentForList;
