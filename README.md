@@ -38,13 +38,22 @@
 ```bash
 pnpm install
 ```
-# 2. Run the Client
+# 2. Database
+
+```bash
+cd server
+```
+```bash
+pnpm drizzle:regenerate
+```
+
+# 3. Run the Client
 
 ```bash
 pnpm dev
 ```
 
-# 3. Run the Development Server
+# 4. Run the Development Server
 
 ```bash
 pnpm dev
