@@ -8,3 +8,4 @@ export function useCurrentUser() {
     currentUser: currentUserQuery.data?.currentUser,
   };
 }
+
