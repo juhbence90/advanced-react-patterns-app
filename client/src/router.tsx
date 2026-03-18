@@ -63,7 +63,6 @@ function getHeaders() {
 export const trpcClient = trpc.createClient({
   links: [
     customLink,
-
     splitLink({
       condition(op) {
         return isNonJsonSerializable(op.input);
