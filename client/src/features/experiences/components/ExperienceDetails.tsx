@@ -124,7 +124,9 @@ function ExperienceDetailsOwnerButtons({
         <Link
           to="/experiences/$experienceId/edit"
           params={{ experienceId: experience.id }}
-        ></Link>
+        >
+          Edit
+        </Link>
       </Button>
       <ExperienceDeleteDialog
         experience={experience}

@@ -7,7 +7,6 @@ import { Button } from "@/features/shared/components/ui/Button";
 import { UserAvatar } from "@/features/users/components/UserAvatar";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { ExperienceDeleteDialog } from "./ExperienceDeleteDialog";
-import { router } from "@/router";
 
 type ExperienceCardProps = {
   experience: ExperienceForList;
@@ -161,7 +160,9 @@ function ExperienceCardOwnerButtons({
         <Link
           to="/experiences/$experienceId/edit"
           params={{ experienceId: experience.id }}
-        ></Link>
+        >
+          Edit
+        </Link>
       </Button>
       <ExperienceDeleteDialog experience={experience} />
     </div>
