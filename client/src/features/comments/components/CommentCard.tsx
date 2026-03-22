@@ -15,6 +15,7 @@ import { useToast } from "@/features/shared/hooks/useToast";
 import { trpc } from "@/router";
 import { UserAvatar } from "@/features/users/components/UserAvatar";
 import Link from "@/features/shared/components/ui/Link";
+import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 
 type CommentCardProps = {
   comment: CommentForList;
@@ -72,6 +73,7 @@ function CommentCardButtons({
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
   const utils = trpc.useUtils();
+  const { currentUser } = useCurrentUser();
 
   const deleteMutation = trpc.comments.delete.useMutation({
     onSuccess: async () => {
@@ -97,42 +99,53 @@ function CommentCardButtons({
     },
   });
 
+  const isCommentOwner = currentUser?.id === comment.userId;
+  const isExperienceOwner = currentUser?.id === comment.experience.userId;
+
+  if (!isCommentOwner && !isExperienceOwner) {
+    return null;
+  }
+
   return (
     <div className="flex gap-4">
-      <Button variant="link" onClick={() => setIsEditing(true)}>
-        Edit
-      </Button>
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogTrigger asChild>
-          <Button variant="destructive-link">Delete</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Comment</DialogTitle>
-          </DialogHeader>
-          <p className="text-neutral-600 dark:text-neutral-400">
-            Are you sure you want to delete this comment? This action cannot be
-            undone.
-          </p>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                deleteMutation.mutate({ id: comment.id });
-              }}
-              disabled={deleteMutation.isPending}
-            >
-              {deleteMutation.isPending ? "Deleting..." : "Delete"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {isCommentOwner && (
+        <Button variant="link" onClick={() => setIsEditing(true)}>
+          Edit
+        </Button>
+      )}
+      {(isCommentOwner || isExperienceOwner) && (
+        <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="destructive-link">Delete</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Comment</DialogTitle>
+            </DialogHeader>
+            <p className="text-neutral-600 dark:text-neutral-400">
+              Are you sure you want to delete this comment? This action cannot
+              be undone.
+            </p>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setIsDeleteDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  deleteMutation.mutate({ id: comment.id });
+                }}
+                disabled={deleteMutation.isPending}
+              >
+                {deleteMutation.isPending ? "Deleting..." : "Delete"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
