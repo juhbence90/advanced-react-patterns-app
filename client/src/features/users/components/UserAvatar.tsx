@@ -26,7 +26,7 @@ export function UserAvatar({
           src={user.avatarUrl ?? undefined}
           className="object-cover"
         />
-        <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
+        <AvatarFallback>{user.name?.slice(0, 2)}</AvatarFallback>
       </Avatar>
       {showName && (
         <span
