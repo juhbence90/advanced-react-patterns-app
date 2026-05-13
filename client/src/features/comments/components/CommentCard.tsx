@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "@/features/shared/components/ui/Card";
-import { CommentForList } from "../types";
+import { CommentForList, CommentOptimistic } from "../types";
 import { CommentEditForm } from "./CommentEditForm";
 import { Button } from "@/features/shared/components/ui/Button";
 import {
@@ -109,14 +109,23 @@ function CommentCardButtons({
   return (
     <div className="flex gap-4">
       {isCommentOwner && (
-        <Button variant="link" onClick={() => setIsEditing(true)}>
+        <Button
+          variant="link"
+          onClick={() => setIsEditing(true)}
+          disabled={(comment as CommentOptimistic).optimistic}
+        >
           Edit
         </Button>
       )}
       {(isCommentOwner || isExperienceOwner) && (
         <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
           <DialogTrigger asChild>
-            <Button variant="destructive-link">Delete</Button>
+            <Button
+              variant="destructive-link"
+              disabled={(comment as CommentOptimistic).optimistic}
+            >
+              Delete
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
