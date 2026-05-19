@@ -75,8 +75,15 @@ export function CommentEditForm({
 
       return { dismiss, previousData };
     },
-    onError: (error, context) => {
+    onError: (error, _, context) => {
       context?.dismiss();
+
+      utils.comments.byExperienceId.setData(
+        {
+          experienceId: comment.experienceId,
+        },
+        context?.previousData.byExperienceId,
+      );
 
       toast({
         title: "Error updating comment",
